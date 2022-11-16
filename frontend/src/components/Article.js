@@ -18,6 +18,11 @@ export const Article = (e, i) => {
     container.style.height = "100vh";
     container.style.background = "rgba(14,33,39,0.8)";
     container.style.color = "white";
+    container.style.boxSizing = "border-box";
+    container.style.padding = "100px";
+    container.style.fontFamily = "'Poppins', sans-serif";
+    container.style.fontSize = "22px";
+    container.style.overflow = "auto";
 
     document.body.appendChild(container);
 
@@ -28,11 +33,18 @@ export const Article = (e, i) => {
         // console.log(res.data, "res");
 
         res.data.forEach((element) => {
-          console.log(element)
+          console.log(element);
           if (element.name.toLowerCase() === features[0]?.properties.city.toLowerCase()) {
             // ELEMENT title
             const title = document.createElement("h1");
             title.setAttribute("id", "title");
+            title.style.textTransform = "capitalize";
+            title.style.fontFamily = "'Kaushan Script', cursive";
+            title.style.fontSize = "150px";
+            title.style.textShadow = "4px 4px 3px rgb(255 255 255 / 61%)";
+            title.style.color = "brown";
+            title.style.margin = "0";
+
             title.innerText = element.name;
 
             container.appendChild(title);
@@ -51,14 +63,16 @@ export const Article = (e, i) => {
       });
 
     // ELEMENT close button container
-    const closeContainer = document.createElement("button");
+    const closeContainer = document.createElement("i");
+    closeContainer.setAttribute("class", "fa-solid fa-circle-xmark");
     closeContainer.setAttribute("id", "closeContainer");
-    closeContainer.innerText = "close";
 
     closeContainer.style.position = "absolute";
-    closeContainer.style.right = "0";
-    closeContainer.style.top = "0";
+    closeContainer.style.right = "100px";
+    closeContainer.style.top = "100px";
     closeContainer.style.zIndex = "10";
+    closeContainer.style.color = "white";
+    closeContainer.style.transform = "scale(2)";
 
     document.body.appendChild(closeContainer);
 
