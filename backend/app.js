@@ -9,20 +9,33 @@ getPolygons(async (err, rows) => {
   if (err) throw err;
 
   const data = await rows;
-  console.log(data);
+  // console.log(data);
 
   // start the api
   const PORT = process.env.PORT || 5000;
 
   const server = http.createServer(async (req, res) => {
+    // set header api
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Request-Method", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+
     // /api/polygons : GET
     if (req.url === "/api/polygons" && req.method === "GET") {
-      // get the polygons.
-      const polygons = await rows;
-      // set the status code, and content-type
-      res.writeHead(200, { "Content-Type": "application/json" });
-      // send the data
-      res.end(JSON.stringify(polygons));
+      try {
+        // get the polygons.
+        const polygons = await rows;
+        // set the status code, and content-type
+        res.writeHead(200, { "Content-Type": "application/json" });
+        // send the data
+        res.end(JSON.stringify(polygons));
+      } catch (error) {
+        // set the status code and content-type
+        res.writeHead(404, { "Content-Type": "application/json" });
+        // send the error
+        res.end(JSON.stringify({ message: error }));
+      }
     }
 
     // // /api/todos/:id : GET
