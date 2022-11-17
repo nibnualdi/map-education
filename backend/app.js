@@ -1,6 +1,6 @@
 const http = require("http");
-const Todo = require("./controllers");
 const { getPolygons } = require("./connectDB");
+// const Todo = require("./controllers");
 // const { getReqData } = require("./utils");
 
 // connect database
@@ -20,20 +20,15 @@ getPolygons(async (err, rows) => {
     res.setHeader("Access-Control-Request-Method", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
     res.setHeader("Access-Control-Allow-Headers", "*");
-
+    
     // /api/polygons : GET
     if (req.url === "/api/polygons" && req.method === "GET") {
       try {
-        // get the polygons.
         const polygons = await rows;
-        // set the status code, and content-type
         res.writeHead(200, { "Content-Type": "application/json" });
-        // send the data
         res.end(JSON.stringify(polygons));
       } catch (error) {
-        // set the status code and content-type
         res.writeHead(404, { "Content-Type": "application/json" });
-        // send the error
         res.end(JSON.stringify({ message: error }));
       }
     }
