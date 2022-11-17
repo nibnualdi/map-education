@@ -49,6 +49,20 @@ export const Article = (e, i) => {
 
             container.appendChild(title);
 
+            // ELEMENT image
+            if (element.image) {
+              const image = document.createElement("img");
+              image.setAttribute("id", "image");
+              image.src = element.image;
+              image.style.float = "right";
+              image.style.marginTop = "40px";
+              image.style.marginRight = "40px";
+              image.style.minWidth = "500px";
+              image.style.padding = "60px";
+  
+              container.appendChild(image);
+            }
+
             // ELEMENT desc
             const desc = document.createElement("p");
             desc.setAttribute("id", "desc");
