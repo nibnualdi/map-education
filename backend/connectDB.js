@@ -1,7 +1,4 @@
-const mysql = require("mysql");
-
-// let polygons;
-
+const mysql = require('mysql')
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,5 +13,8 @@ connection.connect((err) => {
 const getPolygons = (getFunc) => {
   connection.query("SELECT * FROM polygons", getFunc);
 };
+const getUsers = (getFunc, {username, password}) => {
+  connection.query(`SELECT * FROM users WHERE username='${username}' AND password='${password}'`, getFunc);
+};
 
-module.exports = { getPolygons };
+module.exports = { getPolygons, getUsers };
