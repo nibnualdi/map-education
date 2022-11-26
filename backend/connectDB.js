@@ -16,5 +16,8 @@ const getPolygons = (getFunc) => {
 const getUsers = (getFunc, {username, password}) => {
   connection.query(`SELECT * FROM users WHERE username='${username}' AND password='${password}'`, getFunc);
 };
+const createUsers = (getFunc, {username, password}) => {
+  connection.query(`INSERT INTO users (username, password) VALUES (${username}, ${password})`, getFunc);
+};
 
-module.exports = { getPolygons, getUsers };
+module.exports = { getPolygons, getUsers, createUsers };
