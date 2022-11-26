@@ -84,7 +84,7 @@ export const Article = (e, i) => {
     closeContainer.style.position = "absolute";
     closeContainer.style.right = "100px";
     closeContainer.style.top = "100px";
-    closeContainer.style.zIndex = "10";
+    closeContainer.style.zIndex = "100";
     closeContainer.style.color = "white";
     closeContainer.style.transform = "scale(2)";
 
