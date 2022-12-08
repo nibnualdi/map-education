@@ -58,6 +58,7 @@ export const Article = (e, i) => {
               image.style.marginTop = "40px";
               image.style.marginRight = "40px";
               image.style.minWidth = "500px";
+              image.style.maxWidth = "1250px";
               image.style.padding = "60px";
   
               container.appendChild(image);

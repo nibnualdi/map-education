@@ -1,6 +1,5 @@
 import { axiosInstance } from "./axios/app";
 import Cookies from "js-cookie";
-import { baseUrl } from "./baseUrl";
 
 if(Cookies.get("username")) {
   console.log("LU UDAH LOGIN!!!");
@@ -15,8 +14,7 @@ export function login (e) {
   
   axiosInstance.post("login", {username, password}, ).then((res)=>{
     Cookies.set("username", res.data[0].username);
-    formContainer.style.display = "none";
-    // window.location = baseUrl;
+    formContainer.remove();
   }).catch((err)=>{
     console.log(err);
   });
@@ -28,7 +26,8 @@ export function signup (e) {
   const password = document.getElementById("password").value;
 
   axiosInstance.post("signup", {username, password}, ).then((res)=>{
-    window.location = "/signup";
+    console.log("account is created");
+    formContainer.remove();
   }).catch((err)=>{
     console.log(err);
   });
