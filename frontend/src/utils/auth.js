@@ -13,6 +13,7 @@ export function login (e) {
   const formContainer = document.getElementById("formContainer");
   
   axiosInstance.post("login", {username, password}, ).then((res)=>{
+    Cookies.set("id", res.data[0].id);
     Cookies.set("username", res.data[0].username);
     formContainer.remove();
   }).catch((err)=>{
