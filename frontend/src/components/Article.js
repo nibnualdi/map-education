@@ -38,15 +38,16 @@ export const Article = (e) => {
             axiosInstance.post("polygon/get/like", {userId: Cookies.get("id"), polygonId: element.id}).then((res)=>{
               
               // ELEMENT like button
+              // has not liked yet
               const lightLikeElement = document.createElement("i");
               lightLikeElement.setAttribute("class", "fa fa-solid fa-thumbs-up");
               lightLikeElement.setAttribute("id", "lightLike");
 
               lightLikeElement.style.position = "absolute";
-              lightLikeElement.style.right = "150px";
-              lightLikeElement.style.top = "150px";
+              lightLikeElement.style.right = "200px";
+              lightLikeElement.style.top = "200px";
               lightLikeElement.style.zIndex = "100";
-              lightLikeElement.style.color = "rgba(14,33,39,0.1)";
+              lightLikeElement.style.color = "rgba(14,33,39,0.9)";
               lightLikeElement.style.transform = "scale(2)";
               lightLikeElement.style.cursor = "pointer";
 
@@ -70,14 +71,16 @@ export const Article = (e) => {
               });
 
               container.appendChild(lightLikeElement);
+
+              // already has liked
               if (res.data.length) {
                 const likeElement = document.createElement("i");
                 likeElement.setAttribute("class", "fa fa-solid fa-thumbs-up");
                 likeElement.setAttribute("id", "like");
 
                 likeElement.style.position = "absolute";
-                likeElement.style.right = "150px";
-                likeElement.style.top = "150px";
+                likeElement.style.right = "200px";
+                likeElement.style.top = "200px";
                 likeElement.style.zIndex = "100";
                 likeElement.style.color = "white";
                 likeElement.style.transform = "scale(2)";
@@ -105,56 +108,6 @@ export const Article = (e) => {
                 container.appendChild(likeElement);
                 return 
               }
-            });
-
-            // recomendation
-            axiosInstance.post('recomendation', {userId: Number(Cookies.get("id"))}).then((resRecomend)=>{
-              const recomendArticle = res.data.filter(x => x.id === resRecomend.data[0]+1);
-              console.log(recomendArticle, resRecomend)
-              if(!recomendArticle.length) return;
-              const featuresRecomend = map.querySourceFeatures(recomendArticle[0].name);
-              const coordinateRecomend = featuresRecomend[0].geometry.coordinates[0][0];
-
-              const recomendContainer = document.createElement("div");
-              recomendContainer.setAttribute("id", "containerRecomend");
-              recomendContainer.style.display = "flex";
-              recomendContainer.style.position = "absolute";
-              recomendContainer.style.bottom = "10px";
-              recomendContainer.style.right = "50px";
-              recomendContainer.style.maxWidth = "100px";
-              recomendContainer.style.alignItems = "center";
-              recomendContainer.style.gap = "3";
-
-              document.body.appendChild(recomendContainer);
-              
-              const image = document.createElement("img");
-              image.src = recomendArticle[0].image;
-              image.style.minWidth = "50px";
-              image.style.maxWidth = "50px";
-              
-              recomendContainer.appendChild(image);
-              
-              const title = document.createElement("h1");
-              title.setAttribute("id", "titleRecomend");
-              title.style.textTransform = "capitalize";
-              title.style.fontFamily = "'Poppins', sans-serif";
-              title.style.fontSize = "22px";
-              title.style.textShadow = "4px 4px 3px rgb(255 255 255 / 61%)";
-              title.style.color = "white";
-              title.innerText = recomendArticle[0].name;
-              
-              recomendContainer.appendChild(title);
-              
-              recomendContainer.addEventListener('click', ()=>{
-                map.flyTo({ center: coordinateRecomend, zoom: 8, speed: 0.3 });
-                const title = document.querySelector("#title");
-                const desc = document.querySelector("#desc");
-                const image = document.querySelector("#image");
-                title.innerHTML = recomendArticle[0].name;
-                desc.innerHTML = recomendArticle[0].desc;
-                image.src = recomendArticle[0].image;
-                recomendContainer.remove();
-              });
             });
 
             // ELEMENT title
@@ -192,6 +145,83 @@ export const Article = (e) => {
             desc.innerText = element.desc;
 
             container.appendChild(desc);
+
+            // recomendation
+            axiosInstance.post('recomendation', {userId: Number(Cookies.get("id"))}).then((resRecomend)=>{
+              if(!resRecomend.data.length) return;
+              
+              const recomendOuterContainer = document.createElement("div");
+              recomendOuterContainer.style.width = "100%";
+              recomendOuterContainer.style.marginTop = "100px";
+              container.appendChild(recomendOuterContainer);
+              
+              const sentenceForRecomend = document.createElement("h1");
+              sentenceForRecomend.style.fontSize = "16px";
+              sentenceForRecomend.style.color = "white";
+              sentenceForRecomend.innerText = "Artikel yang mungkin kamu suka";
+              recomendOuterContainer.appendChild(sentenceForRecomend);
+              
+              const recomendContainer = document.createElement("div");
+              recomendContainer.style.display = "flex";
+              recomendContainer.style.gap = "10px";
+              recomendContainer.style.width = "100%";
+              recomendOuterContainer.appendChild(recomendContainer);
+
+              resRecomend.data.map((eId)=>{
+                const recomendArticle = res.data.filter(x => x.id === eId+1);
+                console.log(recomendArticle, "recomendArticle");
+                console.log(resRecomend, "resRecomend");
+                
+                recomendArticle.map((e)=>{
+                  const featuresRecomend = map.querySourceFeatures(e.name);
+                  console.log(featuresRecomend, "featuresRecomend");
+                  const coordinateRecomend = featuresRecomend[0].geometry.coordinates[0][0];
+  
+                  const recomend = document.createElement("div");
+                  recomend.style.display = "flex";
+                  recomend.style.alignItems = "center";
+                  recomend.style.gap = "5px";
+                  recomend.style.padding = "5px";
+                  recomend.style.cursor = "pointer";
+                  recomend.style.background = "rgba(0,0,0,0.2)";
+                  recomend.style.borderRadius = "5px";
+    
+                  recomendContainer.appendChild(recomend);
+                  
+                  const image = document.createElement("img");
+                  image.src = e.image;
+                  image.style.width = "50px";
+                  image.style.height = "50px";
+                  image.style.objectFit = "cover";
+                  
+                  recomend.appendChild(image);
+                  
+                  const title = document.createElement("h1");
+                  title.style.textTransform = "capitalize";
+                  title.style.fontFamily = "'Poppins', sans-serif";
+                  title.style.fontSize = "20px";
+                  title.style.color = "white";
+                  title.innerText = e.name;
+                  
+                  recomend.appendChild(title);
+                  
+                  recomend.addEventListener('click', ()=>{
+                    map.flyTo({ center: coordinateRecomend, zoom: 8, speed: 0.3 });
+                    const title = document.querySelector("#title");
+                    const desc = document.querySelector("#desc");
+                    const image = document.querySelector("#image");
+                    title.innerHTML = e.name;
+                    desc.innerHTML = e.desc;
+                    image.src = e.image;
+                    // recomend.remove();
+                  });
+  
+                });
+              });
+              
+
+
+            });
           }
         });
       })
@@ -210,15 +240,14 @@ export const Article = (e) => {
     closeContainer.style.zIndex = "100";
     closeContainer.style.color = "white";
     closeContainer.style.transform = "scale(2)";
+    closeContainer.style.cursor = "pointer";
 
     document.body.appendChild(closeContainer);
 
     closeContainer.addEventListener("click", () => {
-      const containerRecomend = document.querySelector("#containerRecomend");
       map.flyTo({ center: [35.21279633240056, 39.11766792630007], zoom: 5, speed: 0.3 });
       container.remove();
       closeContainer.remove();
-      containerRecomend.remove();
     });
   });
 };
