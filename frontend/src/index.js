@@ -14,7 +14,7 @@ Polygons();
 
 map.on("load", () => {
   map.flyTo({ center: [35.21279633240056, 39.11766792630007], zoom: 5, speed: 0.3 });
-  Auth();
+  // Auth();
 });
 
 TURKEY_GEOJSON.forEach((e, i) => {
