@@ -118,11 +118,11 @@ app.post('/api/recomendation', (req, res)=>{
           });
           ratings.push(eachRating)
         });
-        // const matrix = recommend.coMatrix(ratings, 0);
+        const matrix = recommend.coMatrix(ratings, 0);
         const result = recommend.cFilter(ratings, userId-1);
         res.send(result);
-        // console.log(result, "result");
-        // console.log(matrix._data.length, "matrix");
+        console.log(result, "result");
+        console.log(matrix, "matrix");
         // console.log(ratings, "ratings");
   
       });
