@@ -103,7 +103,7 @@ function App() {
     <div className="w-full h-full">
       {isArticleOpen && (
         <Suspense fallback={<div>Loading...</div>}>
-          <Article setIsArticleOpen={setIsArticleOpen} selectedLayer={selectedLayer} />
+          <Article setIsArticleOpen={setIsArticleOpen} selectedLayer={selectedLayer} map={map} />
         </Suspense>
       )}
 

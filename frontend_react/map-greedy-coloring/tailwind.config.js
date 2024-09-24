@@ -4,8 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        "kaushan": ['Kaushan Script', 'cursive'],
-        "poppins": ['Poppins', 'sans-serif'],
+        "jakarta-plus": ["Plus Jakarta Sans", 'sans-serif'],
       }
     },
   },
